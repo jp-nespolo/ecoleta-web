@@ -5,6 +5,7 @@ import { Map, TileLayer, Marker } from 'react-leaflet';
 import { LeafletMouseEvent } from 'leaflet';
 
 import Dropzone from '../../components/Dropzone';
+import CollectItems from '../../components/CollectItems/CollectItems';
 
 import api from '../../services/api';
 import axios from 'axios';
@@ -65,7 +66,6 @@ const CreatePoint = () => {
     api
       .get('/items')
       .then((res) => {
-        console.log(res.data);
         setItems(res.data);
       })
       .catch(console.error);
@@ -257,29 +257,11 @@ const CreatePoint = () => {
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>
-            <h2>Itens de coleta</h2>
-            <span>Selecione um ou mais itens abaixo</span>
-          </legend>
-
-          <ul className="items-grid">
-            {items.map((item) => (
-              <li
-                key={item.id}
-                onClick={() => handleSelectItem(item.id)}
-                className={selectedItems.includes(item.id) ? 'selected' : ''}
-              >
-                <img
-                  // style={{ width: '120px' }}
-                  src={item.image_url}
-                  alt="Test"
-                />
-                <span>{item.title}</span>
-              </li>
-            ))}
-          </ul>
-        </fieldset>
+        <CollectItems
+          items={items}
+          selectedItems={selectedItems}
+          handleSelectItem={handleSelectItem}
+        ></CollectItems>
 
         <button type="submit">Cadastrar ponto de coleta</button>
       </form>
